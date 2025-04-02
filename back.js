@@ -17,6 +17,6 @@ app.set('port', PORT);
 app.use('/api', require('./routes'));
 
 // Iniciar el servidor
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`SERVER ON PORT ${PORT}`);
 });
