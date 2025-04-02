@@ -12,6 +12,8 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 app.set('port', PORT);
 
+console.log(PORT)
+
 
 // Rutas de la API
 app.use('/api', require('./routes'));
