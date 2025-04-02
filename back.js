@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Configuración del puerto
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.set('port', PORT);
 
 
