@@ -4,7 +4,7 @@ const getFormAllByIdSubmissions = async (req, res, next) => {
     const formId = process.env.FORM_ID
     const page = 1
     const limit = 100
-
+    
     if (!formId) {
         return res.status(400).json({ error: 'El formId es requerido' });
     }
