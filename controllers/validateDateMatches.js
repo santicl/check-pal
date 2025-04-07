@@ -4,25 +4,31 @@ const validateDateMatches = async (req, res, next) => {
     const { numberPerson } = req.body;
     const numberAvailable = 85;
 
-    console.log(req.body)
-
     if (!fecha) {
         return res.status(400).json({ error: 'La fecha es requerida' });
     }
 
     try {
-        const submissionsData = submissions.submissions || [];
+        const submissionsData = submissions || [];
+        //console.log(submissionsData.length, 'Cantidad de Registros')
 
         let totalAdditionalPeople = 0;
 
         submissionsData.filter(submission => {
             const submissionDate = submission.byn83cFhzqjbcoELPxSo;
-            const personas = Number(submission['8gdQMzcZPfR6G0sNkmKX']) || 0;
+            
+            const personasClient = Number(submission['8gdQMzcZPfR6G0sNkmKX']) || 0;
+            const personasAfiliados = Number(submission['YghfEfFA7h5MW0p8qWXs']) || 0;
+            
+            // Sumamos ambos
+            const personas = personasClient + personasAfiliados;
+            console.log(personasClient, personasAfiliados)
 
-        
+            //console.log(personas, submissionDate)
+
             // Se suma la fecha si coincide
             if (submissionDate === fecha) {
-                console.log('Existe coincidencia', submissionDate, personas)
+                //console.log('Existe coincidencia', submissionDate, personas)
                 totalAdditionalPeople += personas;
             }
         
@@ -54,7 +60,11 @@ const validateDateMatches = async (req, res, next) => {
             });
         }
 
-        return { submitions: submissions }
+        return res.json({
+            msg: 'No se pudo validar',
+            ava: false,
+            avaNumber: avaNumber
+        });
 
     } catch (error) {
         console.error('Error al validar las fechas:', error);
