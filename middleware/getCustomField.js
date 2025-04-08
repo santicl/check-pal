@@ -5,6 +5,7 @@ function getDateCustomValues(obj) {
 }
 
 const getCustomFields = async (req, res, next) => {
+    const { fecha } = req.body
     const API_CUSTOM_FIELDS = 'https://rest.gohighlevel.com/v1/custom-values'
 
     try {
@@ -23,8 +24,13 @@ const getCustomFields = async (req, res, next) => {
         
         customValues.forEach(custom => {
             const dateCustom = getDateCustomValues(custom)
-            console.log(dateCustom)
+            if (fecha === dateCustom) {
+                req.body.placesAvailable = parseInt(custom.value)
+            } else if(custom.name === 'cupos-diarios') {
+                req.body.placesAvailable = parseInt(custom.value)
+            }
         });
+        next()
     } catch (error) {
         console.error('X Error al obtener los CUSTOM FIELDS')
     }

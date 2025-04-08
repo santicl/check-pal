@@ -2,7 +2,7 @@ const validateDateMatches = async (req, res, next) => {
     const { fecha } = req.body;
     const { submissions } = req.body;
     const { numberPerson } = req.body;
-    const numberAvailable = 85;
+    const numberAvailable = req.body.placesAvailable;
 
     if (!fecha) {
         return res.status(400).json({ error: 'La fecha es requerida' });
