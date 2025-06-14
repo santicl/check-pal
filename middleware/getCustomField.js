@@ -11,10 +11,12 @@ const getCustomFields = async (req, res, next) => {
     try {
         const response = await axios.get(API_CUSTOM_FIELDS, {
             headers: {
-                'Authorization': `Bearer ${process.env.API_KEY_PAUE}`,
+                'Authorization': `Bearer ${process.env.API_KEY_CAPRI}`,
                 'Content-Type': 'application/json'
             }
         });
+
+        console.log(response)
 
         if (!response.data) {
             return res.status(500).json({ error: 'No se pudo obtener los datos' });

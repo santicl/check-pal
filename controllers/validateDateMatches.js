@@ -8,6 +8,17 @@ const validateDateMatches = async (req, res, next) => {
         return res.status(400).json({ error: 'La fecha es requerida' });
     }
 
+    console.log(submissions)
+
+    if (submissions.length === 0 && numberAvailable > 0) {
+        return res.json({
+            msg: 'Hay Cupos Suficientes',
+            ava: true,
+            avaNumber: numberAvailable
+        });
+    }
+
+
     try {
         const submissionsData = submissions || [];
         //console.log(submissionsData.length, 'Cantidad de Registros')
@@ -16,10 +27,10 @@ const validateDateMatches = async (req, res, next) => {
 
         submissionsData.filter(submission => {
             const submissionDate = submission.byn83cFhzqjbcoELPxSo;
-            
+
             const personasClient = Number(submission['8gdQMzcZPfR6G0sNkmKX']) || 0;
             const personasAfiliados = Number(submission['YghfEfFA7h5MW0p8qWXs']) || 0;
-            
+
             // Sumamos ambos
             const personas = personasClient + personasAfiliados;
             console.log(personasClient, personasAfiliados)
@@ -31,10 +42,10 @@ const validateDateMatches = async (req, res, next) => {
                 //console.log('Existe coincidencia', submissionDate, personas)
                 totalAdditionalPeople += personas;
             }
-        
+
             return submissionDate === fecha;
         }).length;
-        
+
 
         // Cantidad de personas total
         const availablePlaces = numberAvailable - totalAdditionalPeople;
