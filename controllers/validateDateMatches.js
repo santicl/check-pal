@@ -3,12 +3,13 @@ const validateDateMatches = async (req, res, next) => {
     const { submissions } = req.body;
     const { numberPerson } = req.body;
     const numberAvailable = req.body.placesAvailable;
+    console.log(numberAvailable, "validateDATE")
 
     if (!fecha) {
         return res.status(400).json({ error: 'La fecha es requerida' });
     }
 
-    console.log(submissions)
+    //console.log(submissions)
 
     if (submissions.length === 0 && numberAvailable > 0) {
         return res.json({
@@ -21,35 +22,34 @@ const validateDateMatches = async (req, res, next) => {
 
     try {
         const submissionsData = submissions || [];
-        //console.log(submissionsData.length, 'Cantidad de Registros')
+        //console.log(submissionsData, 'Cantidad de Registros')
 
         let totalAdditionalPeople = 0;
 
-        submissionsData.filter(submission => {
-            const submissionDate = submission.byn83cFhzqjbcoELPxSo;
+    submissionsData.forEach((submission) => {
+      const submissionDate = submission["VxRYImDnl8ikmYom7hfz"];
 
-            const personasClient = Number(submission['8gdQMzcZPfR6G0sNkmKX']) || 0;
-            const personasAfiliados = Number(submission['YghfEfFA7h5MW0p8qWXs']) || 0;
+      const personasAdults = Number(submission["TI6rh5uOnAHZEI38UU7e"] || 0);
+      const personasChilds = Number(submission["2kbs6r74qCBAkvHOQDIv"] || 0);
+      const personasInfants = Number(submission["bMeS4BNHinzH1R2RYbRm"] || 0);
 
-            // Sumamos ambos
-            const personas = personasClient + personasAfiliados;
-            console.log(personasClient, personasAfiliados)
+      let total = personasAdults + personasChilds + personasInfants;
 
-            //console.log(personas, submissionDate)
+      // Si no se registró nadie, asumimos que mínimo es 1 persona
+      if (total === 0) {
+        total = 1;
+      }
 
-            // Se suma la fecha si coincide
-            if (submissionDate === fecha) {
-                //console.log('Existe coincidencia', submissionDate, personas)
-                totalAdditionalPeople += personas;
-            }
-
-            return submissionDate === fecha;
-        }).length;
+      if (submissionDate === fecha) {
+        totalAdditionalPeople += total;
+      }
+    });
 
 
         // Cantidad de personas total
         const availablePlaces = numberAvailable - totalAdditionalPeople;
         const avaNumber = numberAvailable - totalAdditionalPeople;
+        console.log(availablePlaces, avaNumber)
 
         // Cupos a solicitar es mayor a cupos disponibles
         if (numberPerson > availablePlaces) {

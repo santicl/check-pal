@@ -12,7 +12,7 @@ const getSubmissions = async (formId, limit = 100) => {
         try {
             const response = await axios.get(url, {
                 headers: {
-                    'Authorization': `Bearer ${process.env.API_KEY_CAPRI}`,
+                    'Authorization': `Bearer ${process.env.API_KEY_COCOISLAND}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -37,23 +37,29 @@ const getSubmissions = async (formId, limit = 100) => {
 };
 
 const getFormAllByIdSubmissions = async (req, res, next) => {
-    const formId = process.env.FORM_ID;
-    const formSecondId = process.env.FORM_SECOND_ID;
+    const formId = process.env.FORM_ID; // Cocolux
+    const formSecondId = process.env.FORM_SECOND_ID; // Premium
+    const formThreeId = process.env.FORM_THREE_ID; // Traditional
     const limit = 100;
+    
 
-    if (!formId || !formSecondId) {
-        return res.status(400).json({ error: 'FORM_ID y FORM_SECOND_ID son requeridos en las variables de entorno' });
+    if (!formId || !formSecondId || !formThreeId) {
+        return res.status(400).json({ error: 'FORM_ID y FORM_SECOND_ID y FORM_THREE_ID son requeridos en las variables de entorno' });
     }
+
+    //console.log(req.body)
 
     try {
         // Obtener todos los submissions de ambos formularios
-        const [form1Submissions, form2Submissions] = await Promise.all([
+        const [form1Submissions, form2Submissions, form3Submissions] = await Promise.all([
             getSubmissions(formId, limit),
-            getSubmissions(formSecondId, limit)
+            getSubmissions(formSecondId, limit),
+            getSubmissions(formThreeId, limit)
         ]);
 
         // Combinar todas las submissions
-        req.body.submissions = [...form1Submissions, ...form2Submissions];
+        req.body.submissions = [...form1Submissions, ...form2Submissions, ...form3Submissions];
+        //console.log(req.body.submissions, "SUBMITIONS")
         next();
 
     } catch (error) {
