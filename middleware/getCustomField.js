@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 function getDateCustomValues(obj) {
-  return obj.name.replace('disponible-coco-', '');
+  return obj.name.replace('disponible-palmarito-', '');
 }
 
 const getCustomFields = async (req, res, next) => {
@@ -11,7 +11,7 @@ const getCustomFields = async (req, res, next) => {
     try {
         const response = await axios.get(API_CUSTOM_FIELDS, {
             headers: {
-                'Authorization': `Bearer ${process.env.API_KEY_COCOISLAND}`,
+                'Authorization': `Bearer ${process.env.API_KEY_PALMARITO}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -28,7 +28,7 @@ const getCustomFields = async (req, res, next) => {
             const dateCustom = getDateCustomValues(custom)
             if (fecha === dateCustom) {
                 req.body.placesAvailable = parseInt(custom.value)
-            } else if(custom.name === 'cupos-diarios-coco') {
+            } else if(custom.name === 'cupos-diarios-palmarito') {
                 req.body.placesAvailable = parseInt(custom.value)
             }
         });

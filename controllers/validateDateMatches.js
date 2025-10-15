@@ -22,7 +22,7 @@ const validateDateMatches = async (req, res, next) => {
 
     try {
         const submissionsData = submissions || [];
-        //console.log(submissionsData, 'Cantidad de Registros')
+        console.log(submissionsData, 'Cantidad de Registros')
 
         let totalAdditionalPeople = 0;
 
