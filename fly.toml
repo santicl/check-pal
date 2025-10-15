@@ -1,5 +1,5 @@
 app = "ghl-check-palmarito"
-primary_region = "bog"
+primary_region = "gru"
 
 # Configuración de construcción (elige entre Dockerfile o Buildpacks)
 [build]
