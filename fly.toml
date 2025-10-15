@@ -1,4 +1,4 @@
-app = "ghl-check-coco"
+app = "ghl-check-palmarito"
 primary_region = "bog"
 
 # Configuración de construcción (elige entre Dockerfile o Buildpacks)
